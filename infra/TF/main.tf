@@ -1,3 +1,22 @@
+# Set the Azure Provider source and version being used
+terraform {
+  required_version = ">= 0.14"
+  backend "remote" {
+    organization = "Canarysteam4"
+    workspaces {
+      name = "team4workspace"
+    }
+    hostname     = "app.terraform.io"
+    token        = "54jbDWriX2mNcw.atlasv1.FXF1MOjHtOWJGy2xNzN3NWnqqWeJU4Ql0wBq9bntqSi1EmZmehYMU733W7xzUysk4wk"
+  }
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.1.0"
+    }
+  }
+}
 resource "azurerm_resource_group" "devopsathon" {
   name     = "team4-dotnet"
   location = "eastus"
