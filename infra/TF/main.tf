@@ -2,12 +2,12 @@
 terraform {
   required_version = ">= 0.14"
   backend "remote" {
-    organization = "Canarysteam4"
+    organization = "PlaywithTerra"
     workspaces {
-      name = "team4workspace"
+      name = "eShopOnWeb"
     }
     hostname     = "app.terraform.io"
-    token        = "s2iFqjxDrM4ZAw.atlasv1.Jtb0Da5kYEif4V9q3BLNK088oEBIIuHBDYKBNBljCf26z3GqV2CSFVPUKpW2EWBXa0Q"
+    token        = "NeCMZPy4CemHkA.atlasv1.oaGPuamFDbz1Zivy4G0S49S3Dz0TXLQlyfTkldmUvyRgq3nylhtHzRa20qboNCKG8a0"
   }
 
   required_providers {
