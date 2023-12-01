@@ -17,6 +17,15 @@ terraform {
     }
   }
 }
+provider "azurerm" {
+  features {}
+  subscription_id ="b6f408e9-b240-412d-b83d-1ec4fc938ee8"
+  client_id       = "c7f59d11-4e5e-4c7b-b25d-9093238144bc"
+  client_secret   = "e1Z8Q~KX~KcwRolI8vdiumoVJ8U4YNfqYo-XRbUi"
+  tenant_id       ="0c88fa98-b222-4fd8-9414-559fa424ce64"
+ 
+}
+
 resource "azurerm_resource_group" "devopsathon" {
   name     = "team4-dotnet"
   location = "eastus"
@@ -30,22 +39,3 @@ resource "azurerm_mssql_server" "sqlserver" {
   administrator_login_password = "Canarys@123"
 }
 
-resource "azurerm_mssql_database" "db" {
-  name           = "CatalogDb"
-  server_id      = azurerm_mssql_server.sqlserver.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  max_size_gb    = 2
-  tags = {
-    foo = "bar"
-  }
-}
-
-resource "azurerm_mssql_database" "db1" {
-  name           = "IdentityDb"
-  server_id      = azurerm_mssql_server.sqlserver.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  max_size_gb    = 2
-  tags = {
-    foo = "bar"
-  }
-}
