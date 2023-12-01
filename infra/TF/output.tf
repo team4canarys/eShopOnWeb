@@ -6,9 +6,3 @@ output "sql_server_name" {
   value = azurerm_mssql_server.sqlserver.id
 }
 
-output "database_name" {
-  value = azurerm_mssql_database.db.name
-}
-output "sqldb2" {
-  value = azurerm_mssql_database.db1.name
-}
