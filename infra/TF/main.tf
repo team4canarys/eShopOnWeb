@@ -7,7 +7,7 @@ terraform {
       name = "team4workspace"
     }
     hostname     = "app.terraform.io"
-    token        = "7IbQYrLi5NNDAQ.atlasv1.pr6HQFqv99W6tLbPTILxWC8oXpwjHjSEZaua08JK7qPQbP95yl5xO8NnnbOAOkTMyfk"
+    token        = "m3QdUAbYlklIaQ.atlasv1.7e2HUhjGgWyuwDfnq6I2Imlv8Ma3gzUbcKlV8aPjrB6RvP18PYVv2uodsvA4019saMg"
   }
 
   required_providers {
