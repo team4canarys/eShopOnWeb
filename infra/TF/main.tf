@@ -1,14 +1,14 @@
 # Set the Azure Provider source and version being used
 terraform {
   required_version = ">= 0.14"
-  backend "remote" {
-    organization = "PlaywithTerra"
-    workspaces {
-      name = "eShopOnWeb"
-    }
-    hostname     = "app.terraform.io"
-    token        = "NeCMZPy4CemHkA.atlasv1.oaGPuamFDbz1Zivy4G0S49S3Dz0TXLQlyfTkldmUvyRgq3nylhtHzRa20qboNCKG8a0"
-  }
+  #backend "remote" {
+   # organization = "PlaywithTerra"
+    #workspaces {
+    #  name = "eShopOnWeb"
+   # }
+    #hostname     = "app.terraform.io"
+   # token        = "NeCMZPy4CemHkA.atlasv1.oaGPuamFDbz1Zivy4G0S49S3Dz0TXLQlyfTkldmUvyRgq3nylhtHzRa20qboNCKG8a0"
+ # }
 
   required_providers {
     azurerm = {
