@@ -47,7 +47,7 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = "B1"
 }
 
-resource "azurerm_windpws_web_app" "webapp" {
+resource "azurerm_windows_web_app" "webapp" {
   name                = "eshoponweb-team4"
   resource_group_name = azurerm_resource_group.devopsathon.name
   location            = azurerm_service_plan.service_plan.location
