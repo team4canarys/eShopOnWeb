@@ -30,7 +30,7 @@ pipeline {
 				archiveArtifacts 'publish/**'
 				archiveArtifacts 'tests/UnitTests/TestResults/**/*.coverage'
 		// sh 'zip zipFile: "$WORKSPACE/artifacts.zip", archive: true, dir: "$WORKSPACE/publish" '
-                zip archive: '$WORKSPACE/publish.zip', dir: '$WORKSPACE/publish'
+                sh "zip archive: '$WORKSPACE/publish.zip', dir: '$WORKSPACE/publish' "
             }
         }
 		stage('Infra') {
