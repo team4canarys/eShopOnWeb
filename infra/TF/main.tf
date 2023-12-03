@@ -39,3 +39,23 @@ resource "azurerm_mssql_server" "sqlserver" {
   administrator_login_password = "Canarys@123"
 }
 
+resource "azurerm_service_plan" "service_plan" {
+  name                = "windows_service_plan"
+  resource_group_name = azurerm_resource_group.devopsathon.name
+  location            = azurerm_resource_group.devopsathon.location
+  os_type             = "Windows"
+  sku_name            = "B1"
+}
+
+resource "azurerm_windpws_web_app" "webapp" {
+  name                = "eshoponweb-team4"
+  resource_group_name = azurerm_resource_group.devopsathon.name
+  location            = azurerm_service_plan.service_plan.location
+  service_plan_id     = azurerm_service_plan.service_plan.id
+
+  site_config {
+    always_on = false
+    
+  }
+  depends_on = [ azurerm_service_plan.service_plan, azurerm_resource_group.devopsathon ]
+}
