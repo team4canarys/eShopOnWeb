@@ -62,7 +62,7 @@ pipeline {
                     echo 'Deploying to Azure App Service'
                     try {
                         sh "export AZURE_CONFIG_DIR=$AZURE_CONFIG_DIR && az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
-                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/$ARTIFACT_PATH"
+                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $ARTIFACT_PATH"
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         echo "Azure deployment failed: ${e.message}"
