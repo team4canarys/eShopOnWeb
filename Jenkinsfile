@@ -1,5 +1,16 @@
 pipeline {
     agent none
+
+    environment {
+        AZURE_WEBAPP_NAME = 'eshoponweb-team4'
+        AZURE_RESOURCE_GROUP = 'team4-dotnet'
+        AZURE_PLAN_NAME = 'eshoponweb-plan'
+        ARTIFACT_PATH = '$WORKSPACE/publish'
+        AZURE_CLIENT_ID = 'c7f59d11-4e5e-4c7b-b25d-9093238144bc'
+        AZURE_CLIENT_SECRET = 'e1Z8Q~KX~KcwRolI8vdiumoVJ8U4YNfqYo-XRbUi'
+        AZURE_TENANT_ID = '0c88fa98-b222-4fd8-9414-559fa424ce64'
+        AZURE_CONFIG_DIR = "$WORKSPACE/.azure"  // Set the Azure CLI configuration directory
+    }
 	
 	stages {
         stage('Build') {
@@ -37,6 +48,25 @@ pipeline {
                     sh 'cd $WORKSPACE/infra/TF && terraform init'
                     sh 'cd $WORKSPACE/infra/TF && terraform plan'
                     sh 'cd $WORKSPACE/infra/TF && terraform apply -auto-approve'
+                }
+            }
+        }
+                stage('DeployToAzureAppService') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/azure-cli'
+                }
+            }
+            steps {
+                script {
+                    echo 'Deploying to Azure App Service'
+                    try {
+                        sh "export AZURE_CONFIG_DIR=$AZURE_CONFIG_DIR && az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
+                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/$ARTIFACT_PATH"
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        echo "Azure deployment failed: ${e.message}"
+                    }
                 }
             }
         }
