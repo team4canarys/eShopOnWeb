@@ -50,15 +50,7 @@ pipeline {
                     sh 'cd $WORKSPACE/infra/TF && terraform apply -auto-approve'
                 }
             }
-        }
-              stage('ZipIt') {
-            agent any 
-            steps {
-                script {
-                    zip zipFile: "../target.zip", archive: true, dir: "$WORKSPACE/publish"
-                }
-            }        
-                
+        } 
                 stage('DeployToAzureAppService') {
             agent {
                 docker {
@@ -80,4 +72,4 @@ pipeline {
         }
     }
 }
-}
+
