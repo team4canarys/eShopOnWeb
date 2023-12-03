@@ -28,7 +28,7 @@ pipeline {
                 sh 'dotnet publish  $WORKSPACE/src/Web/Web.csproj --output $WORKSPACE/publish'
 				archiveArtifacts 'publish/**'
 				archiveArtifacts 'tests/UnitTests/TestResults/**/*.coverage'
-				
+		zip zipFile: "$WORKSPACE/artifacts.zip", archive: true, dir: "$WORKSPACE/publish"
             }
         }
 		stage('Infra') {
@@ -62,7 +62,7 @@ pipeline {
                     echo 'Deploying to Azure App Service'
                     try {
                         sh "export AZURE_CONFIG_DIR=$AZURE_CONFIG_DIR && az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
-                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $ARTIFACT_PATH"
+                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/artifacts.zip"
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         echo "Azure deployment failed: ${e.message}"
