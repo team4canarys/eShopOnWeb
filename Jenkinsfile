@@ -28,7 +28,7 @@ pipeline {
                 sh 'dotnet publish  $WORKSPACE/src/Web/Web.csproj --output $WORKSPACE/publish'
 				archiveArtifacts 'publish/**'
 				archiveArtifacts 'tests/UnitTests/TestResults/**/*.coverage'
-		zip zipFile: "$WORKSPACE/artifacts.zip", archive: true, dir: "$WORKSPACE/publish"
+		sh 'zip zipFile: "$WORKSPACE/artifacts.zip", archive: true, dir: "$WORKSPACE/publish" '
             }
         }
 		stage('Infra') {
