@@ -7,9 +7,9 @@ pipeline {
         AZURE_PLAN_NAME = 'eshoponweb-plan'
         ARTIFACT_PATH = '$WORKSPACE/publish'
         AZURE_CREDENTIALS_ID = 'azurecred'
-        //AZURE_CLIENT_ID = 'c7f59d11-4e5e-4c7b-b25d-9093238144bc'
-        //AZURE_CLIENT_SECRET = 'e1Z8Q~KX~KcwRolI8vdiumoVJ8U4YNfqYo-XRbUi'
-        //AZURE_TENANT_ID = '0c88fa98-b222-4fd8-9414-559fa424ce64'
+        AZURE_CLIENT_ID = 'c7f59d11-4e5e-4c7b-b25d-9093238144bc'
+        AZURE_CLIENT_SECRET = 'e1Z8Q~KX~KcwRolI8vdiumoVJ8U4YNfqYo-XRbUi'
+        AZURE_TENANT_ID = '0c88fa98-b222-4fd8-9414-559fa424ce64'
         AZURE_CONFIG_DIR = "$WORKSPACE/.azure"  // Set the Azure CLI configuration directory
     }
 	
