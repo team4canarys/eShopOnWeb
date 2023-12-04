@@ -38,7 +38,8 @@ pipeline {
            steps {
                script {
                    // Create a tarball from the contents of the publish directory
-                   sh "zip archive: '$WORKSPACE/publish.zip', dir: '$WORKSPACE/publish' "
+                   sh "zip -r $WORKSPACE/publish.zip -d $WORKSPACE/publish"
+                   //zip publish.zip -d publish
                 }
              }
          }
