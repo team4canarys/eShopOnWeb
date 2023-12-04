@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     environment {
         AZURE_WEBAPP_NAME = 'eshoponweb-team4'
