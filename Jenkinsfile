@@ -67,7 +67,7 @@ pipeline {
                         sh "export AZURE_CONFIG_DIR=$AZURE_CONFIG_DIR && az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
                         // sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/artifacts.zip"
                         // sh "azureWebAppPublish credentialsId: env.AZURE_CREDENTIALS_ID, resourceGroup: env.AZURE_RESOURCE_GROUP, appName: env.AZURE_WEBAPP_NAME, package: [target: '$WORKSPACE/publish/**/*'], deploymentMethod: 'auto', deleteAppServiceOnFailure: true, enableForDeployment: false "
-                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/publish.zip"    
+                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src /var/lib/jenkins/workspace/eShopOnWeb/publish.zip"    
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         echo "Azure deployment failed: ${e.message}"
