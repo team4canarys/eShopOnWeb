@@ -37,6 +37,7 @@ pipeline {
             agent {
                 docker {
                     image 'hashicorp/terraform:light'
+                    args '--entrypoint=/usr/bin/env -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
                   
                 }
             }
