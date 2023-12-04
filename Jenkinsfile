@@ -19,7 +19,8 @@ pipeline {
            steps {
                script {
                    // Create a tarball from the contents of the publish directory
-                   sh "sudo zip -r $WORKSPACE/publish.zip $WORKSPACE/publish"
+                   // sh "sudo zip -r $WORKSPACE/publish.zip $WORKSPACE/publish"
+                   sh 'echo Jenkins@1234 | sudo -S zip -r /var/lib/jenkins/workspace/eShopOnWeb/publish.zip /var/lib/jenkins/workspace/eShopOnWeb/publish'
                    //zip publish.zip -d publish
                 }
              }
