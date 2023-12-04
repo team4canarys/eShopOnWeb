@@ -15,16 +15,43 @@ pipeline {
 	
 	stages {
 
-                stage('Create Zip') {
-           steps {
-               script {
-                   // Create a tarball from the contents of the publish directory
-                   // sh "sudo zip -r $WORKSPACE/publish.zip $WORKSPACE/publish"
-                   sh 'echo Jenkins@123 | sudo -S zip -r /var/lib/jenkins/workspace/eShopOnWeb/publish.zip /var/lib/jenkins/workspace/eShopOnWeb/publish'
-                   //zip publish.zip -d publish
+                stage('Build') {
+			agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                    args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
                 }
-             }
-         }
+            }
+            steps {
+                sh 'echo passed'
+                git branch: 'master', url: 'https://github.com/team4canarys/eShopOnWeb.git'
+				sh 'dotnet build $WORKSPACE/Everything.sln'
+                sh 'dotnet test $WORKSPACE/tests/UnitTests/UnitTests.csproj --collect:"Code coverage" '
+                sh 'dotnet publish  $WORKSPACE/src/Web/Web.csproj --output $WORKSPACE/publish'
+				archiveArtifacts 'publish/**'
+				archiveArtifacts 'tests/UnitTests/TestResults/**/*.coverage'
+            }
+        }
+
+                stage('Infra') {
+            agent {
+                docker {
+                    image 'hashicorp/terraform:light'
+                  
+                }
+            }
+           
+            steps {
+                script {                   
+                    // Continue with your Terraform initialization and deployment steps
+                    git branch: 'master', url: 'https://github.com/team4canarys/eShopOnWeb.git'
+                    sh 'ls -la $WORKSPACE/infra/TF' // List files in the directory for debugging
+                    sh 'cd $WORKSPACE/infra/TF && terraform init'
+                    sh 'cd $WORKSPACE/infra/TF && terraform plan'
+                    sh 'cd $WORKSPACE/infra/TF && terraform apply -auto-approve'
+                }
+            }
+        }
                 stage('DeployToAzureAppService') {
             agent {
                 docker {
@@ -38,7 +65,7 @@ pipeline {
                         sh "export AZURE_CONFIG_DIR=$AZURE_CONFIG_DIR && az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
                         // sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/artifacts.zip"
                         // sh "azureWebAppPublish credentialsId: env.AZURE_CREDENTIALS_ID, resourceGroup: env.AZURE_RESOURCE_GROUP, appName: env.AZURE_WEBAPP_NAME, package: [target: '$WORKSPACE/publish/**/*'], deploymentMethod: 'auto', deleteAppServiceOnFailure: true, enableForDeployment: false "
-                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/publish"    
+                        sh "az webapp deployment source config-zip --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_WEBAPP_NAME --src $WORKSPACE/publish.zip"    
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         echo "Azure deployment failed: ${e.message}"
