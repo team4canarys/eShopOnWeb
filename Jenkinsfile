@@ -29,8 +29,6 @@ pipeline {
                 sh 'dotnet publish  $WORKSPACE/src/Web/Web.csproj --output $WORKSPACE/publish'
 				archiveArtifacts 'publish/**'
 				archiveArtifacts 'tests/UnitTests/TestResults/**/*.coverage'
-		// sh 'zip zipFile: "$WORKSPACE/artifacts.zip", archive: true, dir: "$WORKSPACE/publish" '
-               // sh "zip archive: '$WORKSPACE/publish.zip', dir: '$WORKSPACE/publish' "
             }
         }
 
@@ -38,7 +36,7 @@ pipeline {
            steps {
                script {
                    // Create a tarball from the contents of the publish directory
-                   sh "zip -r $WORKSPACE/publish.zip -d $WORKSPACE/publish"
+                   sh "sudo zip -r $WORKSPACE/publish.zip $WORKSPACE/publish"
                    //zip publish.zip -d publish
                 }
              }
