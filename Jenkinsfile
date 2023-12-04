@@ -57,6 +57,7 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/azure-cli'
+                    args '--user root'
                 }
             }
             steps {
